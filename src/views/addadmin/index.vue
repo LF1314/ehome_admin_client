@@ -13,7 +13,7 @@
                 <el-form-item label="昵称" prop="nickName">
                     <el-input v-model="addadminForm.nickName"></el-input>
                 </el-form-item>
-                 <el-form-item label="密码" prop="password">
+                 <el-form-item v-if="show" label="密码" prop="password">
                     <el-input type ='password' v-model="addadminForm.password"></el-input>
                 </el-form-item>
                  <el-form-item label="年龄" prop="age">
@@ -41,7 +41,8 @@
                     <el-input type="textarea" v-model="addadminForm.desc"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="addamin">添加管理员</el-button>
+                    <el-button v-if="show" type="primary" @click="addamin">添加管理员</el-button>
+                    <el-button v-else type="primary" @click="editamin">修改管理员</el-button>
                     <el-button>重置</el-button>
                 </el-form-item>
                 </el-form>
@@ -55,6 +56,7 @@ import pic from '../../components/Uploadimg'
         name:'addadmin',
         data(){
             return{
+                show:true,
                 addadminForm:{
                     userName:'',
                     password:'',
@@ -68,6 +70,31 @@ import pic from '../../components/Uploadimg'
                 }
             }
         },
+
+        watch:{
+            $route(val){
+            //   console.log(val)
+              if(val.name == 'editadmin'){
+                  this.$axios.get('admin/info',{userName:val.params.userName}).then(res=>{
+                      this.addadminForm = res.data
+                  })
+              }else{
+                   this.show = true
+                  this.addadminForm = {
+                    userName:'',
+                    password:'',
+                    nickName:'',
+                    desc:'',
+                    job:'',
+                    sex:'',
+                    age:'',
+                    phone:'',
+                    avatar:''
+                  }
+              }
+            }
+        }
+        ,
         components:{
             pic
         },
@@ -84,8 +111,21 @@ import pic from '../../components/Uploadimg'
                         this.$message.error(res.msg)
                     }
                 })
+            },
+            editamin(){
+
             }
-        }
+        },
+        created() {
+               this.show = true
+            if(this.$route.name == 'editadmin'){
+                this.show = false;
+                   this.$axios.get('admin/info',{userName:this.$route.params.userName}).then(res=>{
+                      this.addadminForm = res.userinfo
+                    //   console.log(this.addadminForm)
+                  })
+            }
+        },
     }
 </script>
 

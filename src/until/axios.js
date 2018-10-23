@@ -39,7 +39,9 @@ const xhr = axios.create({
           })
      }
 
-
+     static delete(url , data , config){
+         return this.get(url,data,'delete',config)
+     }
  }
 
  export default axis

@@ -58,6 +58,26 @@ const router =  new Router({
           meta:{index:4},
           component:()=>import('@views/newlist')
         }
+        ,{
+          path:'editdmin/:userName',
+          name:'editadmin',
+          meta:{index:5},
+          component:()=>import('@views/addadmin')
+        },
+        //轮播图添加
+        {
+           path:'addbanner',
+           name:"addbanner",
+           meta:{index: 6},
+           component:()=>import('@views/banner/index')
+        },
+        //轮播图列表
+        {
+          path:'bannerlist',
+          name:'bannerlist',
+          meta:{index:7},
+          component:()=>import('@views/banner/bannerlist')
+        }
 
       ]
     }

@@ -42,10 +42,12 @@
                     <template slot-scope="scope">
                         <el-button
                         size="mini"
+                        @click="editadmin(scope.row.userName)"
                       >编辑</el-button>
                         <el-button
                         size="mini"
                         type="danger"
+                        @click="removeadmin(scope.row._id)"
                       >删除</el-button>
                     </template>
                     </el-table-column>
@@ -66,13 +68,44 @@
         methods:{
             getdata(){
                 this.loading = true
-                this.$axios.get('/admin').then(res=>{
-                    console.log(res)
+                this.$axios.get('/admin').then(res=>{  
+                    res.admins.forEach((el,index) => {
+                        if(el.userName == this.$store.state.userinfo.userName){
+                            res.admins.splice(index,1)
+                        }
+                    });
                     this.tableData = res.admins
                     this.loading = false
                 })
+            },
+            //删除管理员
+            removeadmin(id)
+            {
+               this.$confirm('此操作将永久删除该管理员, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                        }).then(() => {  
+                        this.$axios.delete('/admin/del',{id}).then(res=>{
+                            if(res.code == 200){
+                                this.$message.success({message:res.msg})
+                                this.getdata()
+                            }else{
+                                this.$message.error(res.msg)
+                            }
+                        })
+                        }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });          
+                        });
+            },
+            //编辑管理员信息
+            editadmin(name){
+                 this.$router.push({name:'editadmin',params:{userName:name}})
             }
-        },
+           },
         created() {
             this.getdata()
         },
