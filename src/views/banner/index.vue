@@ -22,7 +22,20 @@
                   >
                       <el-input  v-model="bannerData.title"></el-input>
                   </el-form-item>
-
+                  <el-form-item 
+                   label='显示轮播图'
+                  >
+                      <el-switch
+                            v-model="bannerData.status"
+                            active-value='1'
+                            inactive-value='0'
+                            active-text="显示"
+                            inactive-text="不显示">
+                            </el-switch>
+                  </el-form-item>
+                 <el-form-item label='索引'>
+                       <el-input-number size="small" v-model="bannerData.index" :min='1'></el-input-number>
+                 </el-form-item>
                   <el-form-item
                    label='分类'
                    prop ='type'
@@ -37,9 +50,10 @@
                    </el-select>
                   </el-form-item>
                   <el-form-item>
-                      <el-button class="addbtn" type='primary' @click="addbanner('ruleForm')">
+                      <el-button class="addbtn" v-if="!isedit" type='primary' @click="addbanner('ruleForm')">
                           添加轮播图
                       </el-button>
+                       <el-button type="primary" v-else size="small" @click="savebaner()">保存修改</el-button>
                   </el-form-item>
              </el-form>
          </el-card>
@@ -59,7 +73,8 @@
                       label='操作'
                      >
                    <template slot-scope="scope">
-                        <el-button type="primary" size="small" @click="addnewid(scope.row._id)">添加</el-button>
+                        <el-button type="primary"  size="small" @click="addnewid(scope.row._id)">添加</el-button>
+                       
                     </template>
                      
                 </el-table-column>
@@ -75,6 +90,7 @@ export default
     data(){
        
         return{
+            isedit:false,
             newlist:[],
             dialogTableVisible:false,
              category:[],
@@ -82,7 +98,9 @@ export default
             imgUrl:'',
             newId:'',
             title:'',
-            type:''
+            type:'',
+            status:'1',
+            index:''
         },
         rules:{
             title:[
@@ -118,23 +136,60 @@ export default
             },
             //添加轮播图
             addbanner(ruleForm){
-         this.$refs[ruleForm].validate((valid) => {
-          if (valid) {
-                this.$axios.post('/banner/addbaner',this.bannerData).then(res=>{
-                    if(res.code == 200){
-                        this.$message.success({message:res.msg})
-                    }
-                })
-          } else {
-            this.$message.error('信息填写不完整')
-            return false;
-          }
-        });
+                this.$refs[ruleForm].validate((valid) => {
+                if (valid) {
+                        this.$axios.post('/banner/addbaner',this.bannerData).then(res=>{
+                            if(res.code == 200){
+                                this.$message.success({message:res.msg})
+                                this.$router.push('/home/bannerlist')
+                            }
+                        })
+                } else {
+                    this.$message.error('信息填写不完整')
+                    return false;
+                }
+                });
                 
+            },
+            //获取单个轮播图
+            getonebaner(){
+                let id = this.$route.query.id
+                this.$axios.get(`/banner/${id}`).then(res=>{
+                    this.bannerData = res.data
+                })
+            },
+            //修改轮播图
+            savebaner(){
+
             }
+    },
+    watch:{
+      $route(val){
+          if(val.name == 'editbanner')
+          {
+              this.isedit = true
+          }else
+          {
+              this.isedit = false
+              this.bannerData={
+                    imgUrl:'',
+                    newId:'',
+                    title:'',
+                    type:'',
+                    status:'1',
+                    index:''
+              }
+          }
+      }
     },
     created() {
         this.getcategory()
+        
+        if(this.$route.name =='editbanner')
+        {
+            this.getonebaner()
+            this.isedit = true
+        }
     },
 }
     

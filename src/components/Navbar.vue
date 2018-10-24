@@ -62,9 +62,7 @@
 <script>
 export default
 {
-    
-}
-    
+}   
 </script>
 <style scoped lang ='scss'>
 .Header_eraper{
@@ -72,11 +70,15 @@ export default
     background-color: #545c64;
     .el-menu{
         border-right: none;
+        .el-submenu .el-menu-item{
+            min-width: 0px;
+        }
     }
 }
 .router-link-active{
     color: #cff520;
 }
+
 </style>
 
 

@@ -22,13 +22,13 @@
                   <el-form-item label="电话" prop="phone">
                      <el-input  v-model="addadminForm.phone"></el-input>
                 </el-form-item>
-                <el-form-item label="性别" prop="sex">
-                    <el-select v-model="addadminForm.sex" placeholder="性别">
+                <el-form-item label="性别" prop="sex" v-if="show">
+                    <el-select v-model="addadminForm.sex"  placeholder="性别">
                     <el-option label="男" value=1></el-option>
                     <el-option label="女" value=0></el-option>
                     </el-select>
                 </el-form-item>
-                 <el-form-item label="工作" prop="job">
+                 <el-form-item label="工作" prop="job" v-if="show">
                     <el-select v-model="addadminForm.job" placeholder="工作">
                     <el-option label="前端" value=0></el-option>
                     <el-option label="后端" value=1></el-option>
@@ -62,8 +62,8 @@ import pic from '../../components/Uploadimg'
                     password:'',
                     nickName:'',
                     desc:'',
-                    job:'',
-                    sex:'',
+                    job:null,
+                    sex:null,
                     age:'',
                     phone:'',
                     avatar:''

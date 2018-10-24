@@ -1,28 +1,17 @@
-
 //添加仓库
-
 import vuex from 'vuex'
-
 import Vue from 'vue'
-
 import createPersistedState from 'vuex-persistedstate'
-
 Vue.use(vuex)
-
-
 const state = {
     userinfo:null
 }
-
 const mutations = {
-
     'CHANGEUSERINFO'(state,upload){
            this.state.userinfo = upload
     }
 }
-
 const store = new vuex.Store({
-
     state,
     mutations,
     plugins:[
@@ -38,7 +27,6 @@ const store = new vuex.Store({
     ]
 
 })
-
 export default store
 
 

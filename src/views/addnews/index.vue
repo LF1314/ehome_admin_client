@@ -1,6 +1,9 @@
 <template>
     <div class="addnew_wraepr">
         <el-card>
+            <div slot="header">
+                  添加新闻
+            </div>
                 <el-form
              label-width="100px" 
              class="demo-ruleForm"

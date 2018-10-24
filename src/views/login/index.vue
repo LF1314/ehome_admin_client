@@ -62,7 +62,6 @@
 .logn_wraper{
     height: 100vh;
     background-color: #2d3a4b;
-    position: relative;
 }
 .loginform_wraper{
     width: 450px;

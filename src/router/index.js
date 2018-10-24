@@ -71,6 +71,12 @@ const router =  new Router({
            meta:{index: 6},
            component:()=>import('@views/banner/index')
         },
+        {
+          path:'editbanner',
+          name:"editbanner",
+          meta:{index: 8},
+          component:()=>import('@views/banner/index')
+       },
         //轮播图列表
         {
           path:'bannerlist',
@@ -80,6 +86,10 @@ const router =  new Router({
         }
 
       ]
+    },
+    {
+      path:'*',
+      component:()=>import('@views/nopage404/notpagee')
     }
   ]
 })

@@ -1,6 +1,9 @@
 <template>
     <div class="admin_wraper">
           <el-card>
+                <div slot="header">
+                        管理员列表
+                </div>
                  <el-table
                     v-loading="loading"
                     :data="tableData"
