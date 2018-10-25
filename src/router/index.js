@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import demorouter from './demorouter'
 Vue.use(Router)
 
 const router =  new Router({
@@ -83,7 +84,9 @@ const router =  new Router({
           name:'bannerlist',
           meta:{index:7},
           component:()=>import('@views/banner/bannerlist')
-        }
+        },
+        //有关移动端的子路由
+        ...demorouter
 
       ]
     },
